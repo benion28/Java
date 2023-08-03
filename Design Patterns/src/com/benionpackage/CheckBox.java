@@ -1,0 +1,8 @@
+package com.benionpackage;
+
+public class CheckBox extends UIControl {
+    @Override
+    public void draw() {
+        System.out.println("Drawing A CheckBox");
+    }
+}

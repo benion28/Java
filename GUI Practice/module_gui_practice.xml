@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_gui_practice" default="compile.module.gui_practice">
+  <dirname property="module.gui_practice.basedir" file="${ant.file.module_gui_practice}"/>
+  
+  <property name="module.jdk.home.gui_practice" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.gui_practice" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.gui_practice" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.gui_practice" value="-encoding UTF-8 -source 12 -target 12 ${compiler.args}"/>
+  
+  <property name="gui_practice.output.dir" value="${module.gui_practice.basedir}/out/production/GUI Practice"/>
+  <property name="gui_practice.testoutput.dir" value="${module.gui_practice.basedir}/out/test/GUI Practice"/>
+  
+  <path id="gui_practice.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="gui_practice.module.production.classpath">
+    <path refid="${module.jdk.classpath.gui_practice}"/>
+  </path>
+  
+  <path id="gui_practice.runtime.production.module.classpath">
+    <pathelement location="${gui_practice.output.dir}"/>
+  </path>
+  
+  <path id="gui_practice.module.classpath">
+    <path refid="${module.jdk.classpath.gui_practice}"/>
+    <pathelement location="${gui_practice.output.dir}"/>
+  </path>
+  
+  <path id="gui_practice.runtime.module.classpath">
+    <pathelement location="${gui_practice.testoutput.dir}"/>
+    <pathelement location="${gui_practice.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.gui_practice">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.gui_practice">
+    <patternset refid="excluded.from.module.gui_practice"/>
+  </patternset>
+  
+  <path id="gui_practice.module.sourcepath">
+    <dirset dir="${module.gui_practice.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.gui_practice" depends="compile.module.gui_practice.production,compile.module.gui_practice.tests" description="Compile module GUI Practice"/>
+  
+  <target name="compile.module.gui_practice.production" depends="register.custom.compilers" description="Compile module GUI Practice; production classes">
+    <mkdir dir="${gui_practice.output.dir}"/>
+    <javac2 destdir="${gui_practice.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.gui_practice}/javac">
+      <compilerarg line="${compiler.args.gui_practice}"/>
+      <bootclasspath refid="gui_practice.module.bootclasspath"/>
+      <classpath refid="gui_practice.module.production.classpath"/>
+      <src refid="gui_practice.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.gui_practice"/>
+    </javac2>
+    
+    <copy todir="${gui_practice.output.dir}">
+      <fileset dir="${module.gui_practice.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.gui_practice.tests" depends="register.custom.compilers,compile.module.gui_practice.production" description="compile module GUI Practice; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.gui_practice" description="cleanup module">
+    <delete dir="${gui_practice.output.dir}"/>
+    <delete dir="${gui_practice.testoutput.dir}"/>
+  </target>
+</project>

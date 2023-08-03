@@ -1,0 +1,1 @@
+Then you have to write the information to the file. We will have to bring in the FileWriter Class to be able to write files, after writing to the file we have to close it.
